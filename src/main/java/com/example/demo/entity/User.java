@@ -1,50 +1,99 @@
 package com.example.demo.entity;
 
+import java.util.Date;
+import java.util.Set;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.CreationTimestamp;
+
+import lombok.Data;
+
 @Entity
-@Table(name = "heroku")
+@Table(name = "users")
+@Data
 public class User {
-
-	@Override
-	public String toString() {
-		return "User [id=" + id + ", name=" + name + ", address=" + address + "]";
-	}
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public String getAddress() {
-		return address;
-	}
-
-	public void setAddress(String address) {
-		this.address = address;
-	}
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 
+	private String userid;
+
 	private String name;
 
+	private String DisplayName;
+
+	private Boolean isEmailVerified;
+
+	private Boolean isPhoneVerified;
+
+	private String state;
+
+	private String pincode;
+
+	private int childCode;
+
+	private int Active_status;
+
+	private String profession;
+
+	private Boolean isAccountVerified;
+
+	private String Country;
+
+	private String email;
+
+	private String phone;
+
+	private String password;
+
+	@CreationTimestamp
+	private Date timestamp;
+
+	private int role;
+
 	private String address;
+
+	private String city;
+
+	private String schoolname;
+
+	private String Achievments;
+
+	private String hobbies;
+
+	private String wanttobe;
+
+	private String ideal;
+
+	private String dob;
+
+	private String otp;
+
+	private String token;
+
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
+	private Set<Role> roles;
+
+	private String photoName;
+
+	private String photoUrl;
+
+	private Boolean isprivate;
+
+	public User() {
+
+	}
 
 }
