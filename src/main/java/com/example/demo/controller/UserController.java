@@ -201,13 +201,15 @@ public class UserController {
 			@RequestParam("firstName") String firstName, @RequestParam("lastName") String lastName) {
 		ResponseObject rsobj = new ResponseObject();
 		User userbyemail = userRepo.findByEmail(email);
+		System.out.println("found user :" +userbyemail);
 		if (userbyemail == null) {
-			userbyemail.setName(name.trim());
-			userbyemail.setPhotoUrl(photoUrl.trim());
-			userbyemail.setEmail(email.trim());
-			userRepo.save(userbyemail);
+			User user = new User();
+			user.setName(name.trim());
+			user.setPhotoUrl(photoUrl.trim());
+			user.setEmail(email.trim());
+			userRepo.save(user);
 			rsobj.setMessage("user registered");
-			rsobj.setObject(userbyemail);
+			rsobj.setObject(user);
 			return rsobj;
 		} else {
 			rsobj.setMessage("user already exist");
