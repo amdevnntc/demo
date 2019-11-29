@@ -212,8 +212,8 @@ public class UserController {
 	public @ResponseBody ResponseObject findById(@RequestParam("userid") String userid,
 			@RequestParam("password") String password) {
 		ResponseObject res = new ResponseObject();
-		User found = userRepo.findByuserid(userid);
-		if (found != null) {
+		List<User> found = userRepo.findByuserid(userid.trim(), password.trim());
+		if (found.isEmpty() != true) {
 			res.setMessage("user found");
 			res.setObject(found);
 			return res;
