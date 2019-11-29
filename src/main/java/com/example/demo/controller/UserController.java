@@ -54,7 +54,7 @@ public class UserController {
 			return obj;
 		} else {
 			obj.setHasError(true);
-			obj.setMessage(user.getEmail() + " this email is Already Available in DataBase !");
+			obj.setMessage("user  Already Available in DataBase !");
 			obj.setTimestamp(new Date());
 			return obj;
 		}
@@ -178,42 +178,7 @@ public class UserController {
 		return obj;
 	}
 
-	@SuppressWarnings("unused")
-	@RequestMapping(value = "/googleRegister", method = RequestMethod.POST)
-	public @ResponseBody ResponseObject signupbygoogle(@RequestParam("name") String name,
-			@RequestParam("email") String email, @RequestParam("photoUrl") String photoUrl,
-			@RequestParam("firstName") String firstName, @RequestParam("lastName") String lastName) {
-		ResponseObject rsobj = new ResponseObject();
-		User user = new User();
-		User found = userRepo.findByEmail(email);
-		if (found == null) {
-			User isuseridExist = userRepo.findByuserid(user.getUserid());
-			if (isuseridExist == null) {
-				user.setName(name.trim());
-				user.setPhotoUrl(photoUrl.trim());
-				user.setEmail(email.trim());
-				User res = userRepo.save(user);
-				if (res != null) {
-					rsobj.setHasError(false);
-					rsobj.setMessage("user saved ");
-					rsobj.setObject(res);
-					return rsobj;
-				} else {
-					rsobj.setHasError(true);
-					rsobj.setMessage("failed ");
-					return rsobj;
-				}
-			} else {
-				rsobj.setHasError(true);
-				rsobj.setMessage("user Already Exist ");
-				return rsobj;
-			}
-		} else {
-			rsobj.setHasError(true);
-			rsobj.setMessage("email Already Exist ");
-			return rsobj;
-		}
-	}
+
 
 	@PostMapping("/getbyuserid")
 	public @ResponseBody ResponseObject findById(@RequestParam("userid") String userid,
@@ -231,4 +196,30 @@ public class UserController {
 			return res;
 		}
 	}
+
+	@RequestMapping(value = "/googleRegister", method = RequestMethod.POST)
+	public @ResponseBody ResponseObject signupbygoogl(@RequestParam("name") String name,
+			@RequestParam("email") String email, @RequestParam("photoUrl") String photoUrl,
+			@RequestParam("firstName") String firstName, @RequestParam("lastName") String lastName) {
+		ResponseObject rsobj = new ResponseObject();
+		User userbyemail = userRepo.findByEmail(email);
+		if (userbyemail != null) {
+			User userbyuserid = userRepo.findByuserid(userbyemail.getUserid());
+			if (userbyuserid != null) {
+				rsobj.setMessage("userid already available");
+				return rsobj;
+			} else {
+				userbyemail.setName(name.trim());
+				userbyemail.setPhotoUrl(photoUrl.trim());
+				userbyemail.setEmail(email.trim());
+				 userRepo.save(userbyemail);
+				 rsobj.setMessage("user registered");
+				 return rsobj;
+			}
+		} else {
+			rsobj.setMessage("user already exist ");
+			return rsobj;
+		}
+	}
+
 }
