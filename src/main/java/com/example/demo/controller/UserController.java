@@ -178,8 +178,6 @@ public class UserController {
 		return obj;
 	}
 
-
-
 	@PostMapping("/getbyuserid")
 	public @ResponseBody ResponseObject findById(@RequestParam("userid") String userid,
 			@RequestParam("password") String password) {
@@ -203,23 +201,17 @@ public class UserController {
 			@RequestParam("firstName") String firstName, @RequestParam("lastName") String lastName) {
 		ResponseObject rsobj = new ResponseObject();
 		User userbyemail = userRepo.findByEmail(email);
-		if (userbyemail != null) {
-			User userbyuserid = userRepo.findByuserid(userbyemail.getUserid());
-			if (userbyuserid != null) {
-				rsobj.setMessage("userid already available");
-				return rsobj;
-			} else {
-				userbyemail.setName(name.trim());
-				userbyemail.setPhotoUrl(photoUrl.trim());
-				userbyemail.setEmail(email.trim());
-				 userRepo.save(userbyemail);
-				 rsobj.setMessage("user registered");
-				 return rsobj;
-			}
+		if (userbyemail == null) {
+			userbyemail.setName(name.trim());
+			userbyemail.setPhotoUrl(photoUrl.trim());
+			userbyemail.setEmail(email.trim());
+			userRepo.save(userbyemail);
+			rsobj.setMessage("user registered");
+			rsobj.setObject(userbyemail);
+			return rsobj;
 		} else {
-			rsobj.setMessage("user already exist ");
+			rsobj.setMessage("user already exist");
 			return rsobj;
 		}
 	}
-
 }
