@@ -20,6 +20,9 @@ List<User> getUserByPhone(String phone, String password);
 @Query(value = "SELECT * FROM users WHERE userid = ?1 and password = ?2", nativeQuery = true)
 List<User> findByuserid(String userid, String password);
 
+@Query(value = "SELECT * FROM users WHERE userid = ?1 and email = ?2", nativeQuery = true)
+List<User> findByemailuserid(String userid, String email);
+
 User findBytoken(String token);
 
 User findByid(Long id);

@@ -178,6 +178,7 @@ public class UserController {
 		return obj;
 	}
 
+	@SuppressWarnings("unused")
 	@RequestMapping(value = "/googleRegister", method = RequestMethod.POST)
 	public @ResponseBody ResponseObject signupbygoogle(@RequestParam("name") String name,
 			@RequestParam("email") String email, @RequestParam("photoUrl") String photoUrl,
@@ -185,25 +186,31 @@ public class UserController {
 		ResponseObject rsobj = new ResponseObject();
 		User user = new User();
 		User found = userRepo.findByEmail(email);
-		User isuseridExist = userRepo.findByuserid(user.getUserid());
-		if (found == null && isuseridExist == null) {
-			user.setName(name.trim());
-			user.setPhotoUrl(photoUrl.trim());
-			user.setEmail(email.trim());
-			User res = userRepo.save(user);
-			if (res != null) {
-				rsobj.setHasError(false);
-				rsobj.setMessage("user saved ");
-				rsobj.setObject(res);
-				return rsobj;
+		if (found == null) {
+			User isuseridExist = userRepo.findByuserid(user.getUserid());
+			if (isuseridExist == null) {
+				user.setName(name.trim());
+				user.setPhotoUrl(photoUrl.trim());
+				user.setEmail(email.trim());
+				User res = userRepo.save(user);
+				if (res != null) {
+					rsobj.setHasError(false);
+					rsobj.setMessage("user saved ");
+					rsobj.setObject(res);
+					return rsobj;
+				} else {
+					rsobj.setHasError(true);
+					rsobj.setMessage("failed ");
+					return rsobj;
+				}
 			} else {
 				rsobj.setHasError(true);
-				rsobj.setMessage("failed ");
+				rsobj.setMessage("user Already Exist ");
 				return rsobj;
 			}
 		} else {
 			rsobj.setHasError(true);
-			rsobj.setMessage("user Already Exist ");
+			rsobj.setMessage("email Already Exist ");
 			return rsobj;
 		}
 	}
