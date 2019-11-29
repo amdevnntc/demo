@@ -41,7 +41,8 @@ public class UserController {
 		String token = RandomAlphaNum.generateSessionKey(50);
 		ResponseObject obj = new ResponseObject();
 		User isExist = userRepo.findByEmail(user.getEmail());
-		if (isExist == null) {
+		User isuseridExist = userRepo.findByuserid(user.getUserid());
+		if (isExist == null && isuseridExist == null) {
 			user.setIsAccountVerified(false);
 			user.setIsEmailVerified(false);
 			user.setIsPhoneVerified(false);
@@ -184,7 +185,8 @@ public class UserController {
 		ResponseObject rsobj = new ResponseObject();
 		User user = new User();
 		User found = userRepo.findByEmail(email);
-		if (found == null) {
+		User isuseridExist = userRepo.findByuserid(user.getUserid());
+		if (found == null && isuseridExist == null) {
 			user.setName(name.trim());
 			user.setPhotoUrl(photoUrl.trim());
 			user.setEmail(email.trim());
@@ -203,6 +205,23 @@ public class UserController {
 			rsobj.setHasError(true);
 			rsobj.setMessage("user Already Exist ");
 			return rsobj;
+		}
+	}
+
+	@PostMapping("/getbyuserid")
+	public @ResponseBody ResponseObject findById(@RequestParam("userid") String userid,
+			@RequestParam("password") String password) {
+		ResponseObject res = new ResponseObject();
+		User found = userRepo.findByuserid(userid);
+		if (found != null) {
+			res.setMessage("user found");
+			res.setObject(found);
+			return res;
+
+		} else {
+			res.setHasError(true);
+			res.setMessage("wrong  credential");
+			return res;
 		}
 	}
 }

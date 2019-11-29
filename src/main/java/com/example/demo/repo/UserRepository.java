@@ -25,6 +25,8 @@ User findByPhone(String phone);
 
 User findByEmail(String email);
 
+User findByuserid(String userid);
+
 @Query(value = "SELECT * FROM users WHERE phone = ?1 and otp = ?2", nativeQuery = true)
 List<User> getUserByPhonewithotp(String phone, String otp);
 
