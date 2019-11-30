@@ -60,7 +60,7 @@ public class UserController {
 		}
 	}
 
-	@RequestMapping(value = "/authenticateby_email", method = RequestMethod.POST)
+	@RequestMapping(value = "/authenticateby_emailll", method = RequestMethod.POST)
 	public @ResponseBody ResponseObject getUserByEmail(@RequestParam("email") String email,
 			@RequestParam("password") String password) {
 		ResponseObject obj = new ResponseObject();
@@ -201,7 +201,6 @@ public class UserController {
 			@RequestParam("firstName") String firstName, @RequestParam("lastName") String lastName) {
 		ResponseObject rsobj = new ResponseObject();
 		User userbyemail = userRepo.findByEmail(email);
-		System.out.println("found user :" +userbyemail);
 		if (userbyemail == null) {
 			User user = new User();
 			user.setName(name.trim());
@@ -214,6 +213,39 @@ public class UserController {
 		} else {
 			rsobj.setMessage("user already exist");
 			return rsobj;
+		}
+	}
+
+	@RequestMapping(value = "/authenticateby_email", method = RequestMethod.POST)
+	public @ResponseBody ResponseObject getuserbyemailorpassword(@RequestParam("email") String emailoruid,
+			@RequestParam("password") String password) {
+		ResponseObject obj = new ResponseObject();
+		if (emailoruid.contains(".")) {
+			List<User> found = userRepo.getUserByEmail(emailoruid, password);
+			if (found.isEmpty() != true) {
+				obj.setHasError(false);
+				obj.setMessage("User Login Successfull");
+				obj.setStatus(200);
+				obj.setObject(found);
+				return obj;
+			} else {
+				obj.setHasError(true);
+				obj.setMessage("wrong credential");
+				return obj;
+			}
+		} else {
+			List<User> found = userRepo.findByuserid(emailoruid, password);
+			if (found.isEmpty() != true) {
+				obj.setHasError(false);
+				obj.setMessage("User Login Successfull");
+				obj.setStatus(200);
+				obj.setObject(found);
+				return obj;
+			} else {
+				obj.setHasError(true);
+				obj.setMessage("wrong credential");
+				return obj;
+			}
 		}
 	}
 }

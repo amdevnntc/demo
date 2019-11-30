@@ -11,30 +11,26 @@ import com.example.demo.entity.User;
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
 
-@Query(value = "SELECT * FROM users WHERE email = ?1 and password = ?2", nativeQuery = true)
-List<User> getUserByEmail(String email, String password);
+	@Query(value = "SELECT * FROM users WHERE email = ?1 and password = ?2", nativeQuery = true)
+	List<User> getUserByEmail(String email, String password);
 
-@Query(value = "SELECT * FROM users WHERE phone = ?1 and password = ?2", nativeQuery = true)
-List<User> getUserByPhone(String phone, String password);
+	@Query(value = "SELECT * FROM users WHERE phone = ?1 and password = ?2", nativeQuery = true)
+	List<User> getUserByPhone(String phone, String password);
 
-@Query(value = "SELECT * FROM users WHERE userid = ?1 and password = ?2", nativeQuery = true)
-List<User> findByuserid(String userid, String password);
+	@Query(value = "SELECT * FROM users WHERE userid = ?1 and password = ?2", nativeQuery = true)
+	List<User> findByuserid(String userid, String password);
 
-@Query(value = "SELECT * FROM users WHERE userid = ?1 and email = ?2", nativeQuery = true)
-List<User> findByemailuserid(String userid, String email);
+	User findBytoken(String token);
 
-User findBytoken(String token);
+	User findByid(Long id);
 
-User findByid(Long id);
+	User findByPhone(String phone);
 
-User findByPhone(String phone);
+	User findByEmail(String email);
 
-User findByEmail(String email);
+	User findByuserid(String userid);
 
-User findByuserid(String userid);
-
-@Query(value = "SELECT * FROM users WHERE phone = ?1 and otp = ?2", nativeQuery = true)
-List<User> getUserByPhonewithotp(String phone, String otp);
+	@Query(value = "SELECT * FROM users WHERE phone = ?1 and otp = ?2", nativeQuery = true)
+	List<User> getUserByPhonewithotp(String phone, String otp);
 
 }
-
