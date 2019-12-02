@@ -42,7 +42,8 @@ public class UserController {
 		ResponseObject obj = new ResponseObject();
 		User isExist = userRepo.findByEmail(user.getEmail());
 		User isuseridExist = userRepo.findByuserid(user.getUserid());
-		if (isExist == null && isuseridExist == null) {
+		User isusephoneExist = userRepo.findByPhone(user.getPhone());
+		if (isExist == null && isuseridExist == null && isusephoneExist == null) {
 			user.setIsAccountVerified(false);
 			user.setIsEmailVerified(false);
 			user.setIsPhoneVerified(false);
