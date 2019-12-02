@@ -44,6 +44,7 @@ public class SendSMSController {
 			} else {
 				found.setOtp(random);
 				emailutil.sendEmail(found.getEmail(), "1418 Incredible ", msg);
+				System.out.println("mail sent to Registered user ");
 				repo.save(found);
 				rsobj.setMessage("OTP sent to email address. This will be valid for 10 minutes.");
 				rsobj.setHasError(false);
@@ -56,6 +57,7 @@ public class SendSMSController {
 				rsobj.setHasError(true);
 			} else {
 				SendMessage.message(phone, "hey user Your OTP is " + random);
+				System.out.println("otp send to registered mobile number");
 				found.setOtp(random);
 				repo.save(found);
 				rsobj.setMessage("OTP sent to mobile number. This will be valid for 10 minutes.");
