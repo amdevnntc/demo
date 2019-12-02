@@ -15,6 +15,7 @@ import com.example.demo.constants.SendMessage;
 import com.example.demo.entity.ResponseObject;
 import com.example.demo.entity.User;
 import com.example.demo.repo.UserRepository;
+import com.example.demo.util.EmailUtil;
 import com.example.demo.util.RandomText;
 
 @Controller
@@ -24,20 +25,41 @@ public class SendSMSController {
 	@Autowired
 	private UserRepository repo;
 
+	@Autowired
+	private EmailUtil emailutil;
+
+	@SuppressWarnings("unused")
 	@RequestMapping(value = "/getOtp", method = RequestMethod.POST)
 	public @ResponseBody ResponseObject getOtp(@RequestParam("phone") String phone) {
 		ResponseObject rsobj = new ResponseObject();
-		User found = repo.findByPhone(phone);
-		if (found == null) {
-			rsobj.setMessage("number not  Exist !");
-			rsobj.setHasError(true);
+		String random = RandomText.generateRND();
+		if (phone.contains(".")) {
+			User found = repo.findByEmail(phone);
+			String msg = "hello  User  Your 1418 login OTP is  " + random + " " + "\n"
+					+ "in case any enquiry feel free to reach us " + "\n" + "sampark software solutions " + "\n"
+					+ "Sector 32 Gurgaon ";
+			if (found == null) {
+				rsobj.setMessage("user does not exist !");
+				rsobj.setHasError(true);
+			} else {
+				found.setOtp(random);
+				emailutil.sendEmail(found.getEmail(), "1418 Incredible ", msg);
+				repo.save(found);
+				rsobj.setMessage("OTP sent to email address. This will be valid for 10 minutes.");
+				rsobj.setHasError(false);
+			}
 		} else {
-			String random = RandomText.generateRND();
-			SendMessage.message(phone, "Your OTP is " + random);
-			found.setOtp(random);
-			repo.save(found);
-			rsobj.setMessage("OTP sent to mobile number. This will be valid for 10 minutes.");
-			rsobj.setHasError(false);
+			User found = repo.findByPhone(phone);
+			if (found == null) {
+				rsobj.setMessage("user does not exist !");
+				rsobj.setHasError(true);
+			} else {
+				SendMessage.message(phone, "hey user Your OTP is " + random);
+				found.setOtp(random);
+				repo.save(found);
+				rsobj.setMessage("OTP sent to mobile number. This will be valid for 10 minutes.");
+				rsobj.setHasError(false);
+			}
 		}
 		return rsobj;
 	}
