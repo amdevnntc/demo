@@ -47,6 +47,7 @@ public class SendSMSController {
 				repo.save(found);
 				rsobj.setMessage("OTP sent to email address. This will be valid for 10 minutes.");
 				rsobj.setHasError(false);
+				rsobj.setObject(found);
 			}
 		} else {
 			User found = repo.findByPhone(phone);
@@ -59,6 +60,7 @@ public class SendSMSController {
 				repo.save(found);
 				rsobj.setMessage("OTP sent to mobile number. This will be valid for 10 minutes.");
 				rsobj.setHasError(false);
+				rsobj.setObject(found);
 			}
 		}
 		return rsobj;
