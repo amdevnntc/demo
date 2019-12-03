@@ -71,23 +71,49 @@ public class SendSMSController {
 	@RequestMapping(value = "/authenticate_byotp", method = RequestMethod.POST)
 	public @ResponseBody ResponseObject loginByOtp(@RequestParam("phone") String phone,
 			@RequestParam("otp") String otp) {
-		ResponseObject rsobj = new ResponseObject();
-		List<Object> obj = new ArrayList<Object>();
-		User found = repo.findByPhone(phone);
-		Boolean exist = found.getOtp().equals(otp);
-		if (found != null && exist.equals(true)) {
-			obj.add(found);
-			rsobj.setObject(obj);
-			rsobj.setHasError(false);
-			found.setOtp(null);
-			repo.save(found);
-			rsobj.setMessage("sucessfully Logged In");
-			return rsobj;
+		ResponseObject obj = new ResponseObject();
+		if (phone.contains(".")) {
+			User found = repo.findByEmail(phone);
+			List<User> list = new ArrayList<>();
+			if (found.getOtp() == null) {
+				obj.setMessage("wrong credential");
+				return obj;
+			} else {
+				Boolean isExist = found.getOtp().equals(otp);
+				if (found != null && isExist.equals(true)) {
+					list.add(found);
+					obj.setObject(list);
+					obj.setMessage("user Logged In Sucessfully ");
+					found.setOtp(null);
+					repo.save(found);
+					return obj;
+				} else {
+					obj.setHasError(true);
+					obj.setMessage("wrong credential ");
+					return obj;
+				}
+			}
 		} else {
-			rsobj.setMessage("wrong credential");
-			rsobj.setHasError(true);
-			return rsobj;
+			User found = repo.findByPhone(phone);
+			List<User> list = new ArrayList<>();
+			if (found.getOtp() == null) {
+				obj.setMessage("wrong credential");
+				return obj;
+			} else {
+				Boolean isExist = found.getOtp().equals(otp);
+				if (found != null && isExist.equals(true)) {
+					list.add(found);
+					obj.setObject(list);
+					obj.setMessage("user Logged In Sucessfully ");
+					found.setOtp(null);
+					repo.save(found);
+					return obj;
+				} else {
+					obj.setHasError(true);
+					obj.setMessage("wrong credential ");
+					return obj;
+				}
+			}
 		}
 	}
-
 }

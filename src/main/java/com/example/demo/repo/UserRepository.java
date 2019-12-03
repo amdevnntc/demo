@@ -32,5 +32,8 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
 	@Query(value = "SELECT * FROM users WHERE phone = ?1 and otp = ?2", nativeQuery = true)
 	List<User> getUserByPhonewithotp(String phone, String otp);
+	
+	@Query(value = "SELECT * FROM users WHERE email = ?1 and otp = ?2", nativeQuery = true)
+	List<User> getUserByEmailwithotp(String email, String otp);
 
 }
