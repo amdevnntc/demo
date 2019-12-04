@@ -204,27 +204,42 @@ public class UserController {
 		}
 	}
 
+//	@RequestMapping(value = "/authenticateby_email", method = RequestMethod.POST)
+//	public ResponseEntity getuserbyemailorpassword(@RequestParam("email") String emailoruid,
+//			@RequestParam("password") String password) {
+//		ResponseObject obj = new ResponseObject();
+//		if (emailoruid.contains(".")) {
+//			User  found = userRepo.getUserByEmail(emailoruid, password);
+//			if (found!=null) {
+//				System.out.println(found);
+//				return new ResponseEntity<>(found, HttpStatus.OK);
+//			} else {
+//				obj.setHasError(true);
+//				obj.setMessage("wrong credential");
+//				return new ResponseEntity<>(found, HttpStatus.BAD_REQUEST);
+//			}
+//		} else {
+//			List<User> found = userRepo.findByuserid(emailoruid, password);
+//			if (found.isEmpty() != true) {
+//				return new ResponseEntity<>(found, HttpStatus.OK);
+//			} else {
+//				return new ResponseEntity<>(found, HttpStatus.BAD_REQUEST);
+//			}
+//		}
+//	}
+	
 	@RequestMapping(value = "/authenticateby_email", method = RequestMethod.POST)
-	public ResponseEntity getuserbyemailorpassword(@RequestParam("email") String emailoruid,
+	public User getuserbyemailorpassword(@RequestParam("email") String emailoruid,
 			@RequestParam("password") String password) {
 		ResponseObject obj = new ResponseObject();
-		if (emailoruid.contains(".")) {
-			User  found = userRepo.getUserByEmail(emailoruid, password);
-			if (found!=null) {
-				return new ResponseEntity<>(found, HttpStatus.OK);
-			} else {
-				obj.setHasError(true);
-				obj.setMessage("wrong credential");
-				return new ResponseEntity<>(found, HttpStatus.BAD_REQUEST);
-			}
-		} else {
-			List<User> found = userRepo.findByuserid(emailoruid, password);
-			if (found.isEmpty() != true) {
-				return new ResponseEntity<>(found, HttpStatus.OK);
-			} else {
-				return new ResponseEntity<>(found, HttpStatus.BAD_REQUEST);
-			}
-		}
+		User  found = userRepo.getUserByEmail(emailoruid, password);
+		  if(found!=null) {
+		return found;
+		  }
+		  else {
+			  return found;
+		  }
+		
 	}
 
 	/*
