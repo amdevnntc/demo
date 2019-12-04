@@ -9,6 +9,8 @@ import java.util.List;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -63,21 +65,18 @@ public class UserController {
 		}
 	}
 
+	@SuppressWarnings("rawtypes")
 	@RequestMapping(value = "/authenticateby_emailll", method = RequestMethod.POST)
-	public @ResponseBody ResponseObject getUserByEmail(@RequestParam("email") String email,
+	public ResponseEntity getUserByEmail(@RequestParam("email") String email,
 			@RequestParam("password") String password) {
 		ResponseObject obj = new ResponseObject();
 		List<User> found = userRepo.getUserByEmail(email, password);
 		if (found.isEmpty() != true) {
-			obj.setHasError(false);
-			obj.setMessage("User Login Successfull");
-			obj.setStatus(200);
-			obj.setObject(found);
-			return obj;
+			return new ResponseEntity(found, HttpStatus.OK);
 		}
 		obj.setHasError(true);
 		obj.setMessage("user not found");
-		return obj;
+		return new ResponseEntity(found, HttpStatus.NOT_FOUND);
 	}
 
 	@RequestMapping(value = "/authenticateby_phone", method = RequestMethod.POST)
