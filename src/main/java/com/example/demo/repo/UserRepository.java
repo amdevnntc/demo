@@ -18,7 +18,10 @@ public interface UserRepository extends JpaRepository<User, Long> {
 	List<User> getUserByPhone(String phone, String password);
 
 	@Query(value = "SELECT * FROM users WHERE userid = ?1 and password = ?2", nativeQuery = true)
-	List<User> findByuserid(String userid, String password);
+	User findByuserid(String userid, String password);
+	
+	@Query(value = "SELECT * FROM users WHERE userid = ?1 and password = ?2", nativeQuery = true)
+	List<User> findByuseridd(String userid, String password);
 
 	User findBytoken(String token);
 

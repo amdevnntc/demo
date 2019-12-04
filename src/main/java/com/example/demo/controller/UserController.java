@@ -170,7 +170,7 @@ public class UserController {
 	public @ResponseBody ResponseObject findById(@RequestParam("userid") String userid,
 			@RequestParam("password") String password) {
 		ResponseObject res = new ResponseObject();
-		List<User> found = userRepo.findByuserid(userid.trim(), password.trim());
+		List<User> found = userRepo.findByuseridd(userid.trim(), password.trim());
 		if (found.isEmpty() != true) {
 			res.setMessage("user found");
 			res.setObject(found);
@@ -204,42 +204,28 @@ public class UserController {
 		}
 	}
 
-//	@RequestMapping(value = "/authenticateby_email", method = RequestMethod.POST)
-//	public ResponseEntity getuserbyemailorpassword(@RequestParam("email") String emailoruid,
-//			@RequestParam("password") String password) {
-//		ResponseObject obj = new ResponseObject();
-//		if (emailoruid.contains(".")) {
-//			User  found = userRepo.getUserByEmail(emailoruid, password);
-//			if (found!=null) {
-//				System.out.println(found);
-//				return new ResponseEntity<>(found, HttpStatus.OK);
-//			} else {
-//				obj.setHasError(true);
-//				obj.setMessage("wrong credential");
-//				return new ResponseEntity<>(found, HttpStatus.BAD_REQUEST);
-//			}
-//		} else {
-//			List<User> found = userRepo.findByuserid(emailoruid, password);
-//			if (found.isEmpty() != true) {
-//				return new ResponseEntity<>(found, HttpStatus.OK);
-//			} else {
-//				return new ResponseEntity<>(found, HttpStatus.BAD_REQUEST);
-//			}
-//		}
-//	}
-	
 	@RequestMapping(value = "/authenticateby_email", method = RequestMethod.POST)
 	public User getuserbyemailorpassword(@RequestParam("email") String emailoruid,
 			@RequestParam("password") String password) {
 		ResponseObject obj = new ResponseObject();
-		User  found = userRepo.getUserByEmail(emailoruid, password);
-		  if(found!=null) {
-		return found;
-		  }
-		  else {
-			  return found;
-		  }
-		
+		if (emailoruid.contains(".")) {
+			User found = userRepo.getUserByEmail(emailoruid, password);
+			if (found != null) {
+				System.out.println(found);
+				return found;
+			} else {
+				obj.setHasError(true);
+				obj.setMessage("wrong credential");
+				return found;
+			}
+		} else {
+			User found = userRepo.findByuserid(emailoruid, password);
+			if (found != null) {
+				return found;
+			} else {
+				return found;
+			}
+		}
 	}
 
 	/*
