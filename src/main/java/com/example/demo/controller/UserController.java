@@ -65,20 +65,6 @@ public class UserController {
 		}
 	}
 
-	@SuppressWarnings("rawtypes")
-	@RequestMapping(value = "/authenticateby_emailll", method = RequestMethod.POST)
-	public ResponseEntity getUserByEmail(@RequestParam("email") String email,
-			@RequestParam("password") String password) {
-		ResponseObject obj = new ResponseObject();
-		List<User> found = userRepo.getUserByEmail(email, password);
-		if (found.isEmpty() != true) {
-			return new ResponseEntity(found, HttpStatus.OK);
-		}
-		obj.setHasError(true);
-		obj.setMessage("user not found");
-		return new ResponseEntity(found, HttpStatus.NOT_FOUND);
-	}
-
 	@RequestMapping(value = "/authenticateby_phone", method = RequestMethod.POST)
 	public @ResponseBody ResponseObject getUserByPhone(@RequestParam("phone") String phone,
 			@RequestParam("password") String password) {
@@ -223,8 +209,8 @@ public class UserController {
 			@RequestParam("password") String password) {
 		ResponseObject obj = new ResponseObject();
 		if (emailoruid.contains(".")) {
-			List<User> found = userRepo.getUserByEmail(emailoruid, password);
-			if (found.isEmpty() != true) {
+			User  found = userRepo.getUserByEmail(emailoruid, password);
+			if (found!=null) {
 				return new ResponseEntity<>(found, HttpStatus.OK);
 			} else {
 				obj.setHasError(true);
@@ -266,7 +252,7 @@ public class UserController {
 	 * return obj; } }
 	 */
 	@PostMapping("/updateuser")
-	public ResponseObject updateUser(@RequestBody User user) {
+	public ResponseEntity updateUser(@RequestBody User user) {
 		ResponseObject obj = new ResponseObject();
 		// find user based on id
 		User found = userRepo.findByid(user.getId());
@@ -274,11 +260,10 @@ public class UserController {
 			found.setId(user.getId());
 			BeanUtils.copyProperties(user, found);
 			userRepo.save(found);
-			obj.setMessage("user updated sucessfully");
-			return obj;
+			return new ResponseEntity<>(found, HttpStatus.OK);
 		} else {
 			obj.setMessage("user not found");
-			return obj;
+			return new ResponseEntity<>(found, HttpStatus.NOT_FOUND);
 		}
 	}
 }

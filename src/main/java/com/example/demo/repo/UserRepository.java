@@ -12,7 +12,7 @@ import com.example.demo.entity.User;
 public interface UserRepository extends JpaRepository<User, Long> {
 
 	@Query(value = "SELECT * FROM users WHERE email = ?1 and password = ?2", nativeQuery = true)
-	List<User> getUserByEmail(String email, String password);
+	User getUserByEmail(String email, String password);
 
 	@Query(value = "SELECT * FROM users WHERE phone = ?1 and password = ?2", nativeQuery = true)
 	List<User> getUserByPhone(String phone, String password);
