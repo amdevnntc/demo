@@ -261,6 +261,7 @@ public class UserController {
 		// find user on the behalf of id
 		User found = userRepo.findByid(Long.parseLong(id));
 		if (found != null) {
+			//update user
 			found.setAchievments(achievment);
 			found.setAddress(address);
 			found.setHobbies(hobbie);
