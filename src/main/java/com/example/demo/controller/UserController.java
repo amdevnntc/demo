@@ -219,34 +219,24 @@ public class UserController {
 	}
 
 	@RequestMapping(value = "/authenticateby_email", method = RequestMethod.POST)
-	public @ResponseBody ResponseObject getuserbyemailorpassword(@RequestParam("email") String emailoruid,
+	public ResponseEntity getuserbyemailorpassword(@RequestParam("email") String emailoruid,
 			@RequestParam("password") String password) {
 		ResponseObject obj = new ResponseObject();
 		if (emailoruid.contains(".")) {
 			List<User> found = userRepo.getUserByEmail(emailoruid, password);
 			if (found.isEmpty() != true) {
-				obj.setHasError(false);
-				obj.setMessage("User Login Successfull");
-				obj.setStatus(200);
-				obj.setObject(found);
-				return obj;
+				return new ResponseEntity<>(found, HttpStatus.OK);
 			} else {
 				obj.setHasError(true);
 				obj.setMessage("wrong credential");
-				return obj;
+				return new ResponseEntity<>(found, HttpStatus.BAD_REQUEST);
 			}
 		} else {
 			List<User> found = userRepo.findByuserid(emailoruid, password);
 			if (found.isEmpty() != true) {
-				obj.setHasError(false);
-				obj.setMessage("User Login Successfull");
-				obj.setStatus(200);
-				obj.setObject(found);
-				return obj;
+				return new ResponseEntity<>(found, HttpStatus.OK);
 			} else {
-				obj.setHasError(true);
-				obj.setMessage("wrong credential");
-				return obj;
+				return new ResponseEntity<>(found, HttpStatus.BAD_REQUEST);
 			}
 		}
 	}
