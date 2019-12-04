@@ -31,6 +31,10 @@ public class User {
 
 	private String name;
 
+	private String idproof;
+
+	private String intrest;
+
 	private String DisplayName;
 
 	private Boolean isEmailVerified;
