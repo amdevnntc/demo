@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -251,35 +252,43 @@ public class UserController {
 		}
 	}
 
+	/*
+	 * @PostMapping("/updateuser") public ResponseObject
+	 * updateUser(@RequestParam("id") String id, @RequestParam("idproof") String
+	 * idproof,
+	 * 
+	 * @RequestParam("address") String address, @RequestParam("city") String city,
+	 * 
+	 * @RequestParam("school") String school, @RequestParam("ideal") String ideal,
+	 * 
+	 * @RequestParam("hobbie") String hobbie, @RequestParam("achievment") String
+	 * achievment,
+	 * 
+	 * @RequestParam("intrest") String intrest, @RequestParam("wanttobe") String
+	 * wanttobe) { ResponseObject obj = new ResponseObject(); // find user on the
+	 * behalf of id User found = userRepo.findByid(Long.parseLong(id)); if (found !=
+	 * null) { //update user found.setAchievments(achievment);
+	 * found.setAddress(address); found.setHobbies(hobbie); found.setIdeal(ideal);
+	 * found.setSchoolname(school); found.setWanttobe(wanttobe);
+	 * found.setIdproof(idproof); found.setCity(city); found.setIntrest(intrest);
+	 * userRepo.save(found); obj.setHasError(false);
+	 * obj.setMessage("User Details updated  Successfully"); obj.setStatus(200);
+	 * obj.setObject(found); return obj; } else { obj.setMessage("user not found ");
+	 * return obj; } }
+	 */
 	@PostMapping("/updateuser")
-	public ResponseObject updateUser(@RequestParam("id") String id, @RequestParam("idproof") String idproof,
-			@RequestParam("address") String address, @RequestParam("city") String city,
-			@RequestParam("school") String school, @RequestParam("ideal") String ideal,
-			@RequestParam("hobbie") String hobbie, @RequestParam("achievment") String achievment,
-			@RequestParam("intrest") String intrest, @RequestParam("wanttobe") String wanttobe) {
+	public ResponseObject updateUser(@RequestBody User user) {
 		ResponseObject obj = new ResponseObject();
-		// find user on the behalf of id
-		User found = userRepo.findByid(Long.parseLong(id));
+		// find user based on id
+		User found = userRepo.findByid(user.getId());
 		if (found != null) {
-			//update user
-			found.setAchievments(achievment);
-			found.setAddress(address);
-			found.setHobbies(hobbie);
-			found.setIdeal(ideal);
-			found.setSchoolname(school);
-			found.setWanttobe(wanttobe);
-			found.setIdproof(idproof);
-			found.setCity(city);
-			found.setIntrest(intrest);
+			found.setId(user.getId());
+			BeanUtils.copyProperties(user, found);
 			userRepo.save(found);
-			obj.setHasError(false);
-			obj.setMessage("User Details updated  Successfully");
-			obj.setStatus(200);
-			obj.setObject(found);
+			obj.setMessage("user updated sucessfully");
 			return obj;
-		}
-		else {
-			obj.setMessage("user not found ");
+		} else {
+			obj.setMessage("user not found");
 			return obj;
 		}
 	}
