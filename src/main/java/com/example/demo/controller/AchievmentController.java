@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +21,9 @@ public class AchievmentController {
 	@GetMapping("/getachievments")
 	public List<UserAchievmenst> getachievments() {
 		System.out.println(userrepo.findAll());
-		return userrepo.findAll();
+		List<UserAchievmenst> list = new ArrayList<UserAchievmenst>();
+		list.addAll(userrepo.findAll());
+		return list;
 	}
 
 }
