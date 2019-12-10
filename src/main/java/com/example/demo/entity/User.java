@@ -35,6 +35,8 @@ public class User {
 
 	private String intrest;
 
+	private int age;
+
 	private String DisplayName;
 
 	private Boolean isEmailVerified;
