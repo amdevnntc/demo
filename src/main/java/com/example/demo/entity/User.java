@@ -43,6 +43,8 @@ public class User {
 
 	private String state;
 
+	private String gender;
+
 	private String pincode;
 
 	private int childCode;

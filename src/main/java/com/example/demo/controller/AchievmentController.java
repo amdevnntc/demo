@@ -19,12 +19,12 @@ public class AchievmentController {
 	private UserAchievmentsRepo userrepo;
 
 	@GetMapping("/getachievments")
-	public Object[] getachievments() {
+	public List<UserAchievmenst> getachievments() {
 		System.out.println(userrepo.findAll());
 		List<UserAchievmenst> list = new ArrayList<UserAchievmenst>();
 		list.addAll(userrepo.findAll());
 		 Object[] objects = list.toArray();
-		return objects;
+		return list;
 		
 	}
 
