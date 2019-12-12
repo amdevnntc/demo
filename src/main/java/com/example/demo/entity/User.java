@@ -14,7 +14,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import lombok.Data;
 
 @Entity
-@Table(name = "users")
+@Table(name = "1418user")
 @Data
 public class User {
 
