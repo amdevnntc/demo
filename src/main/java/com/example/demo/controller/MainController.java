@@ -15,6 +15,6 @@ public class MainController {
 	
 	@RequestMapping(value="/",method=RequestMethod.GET)
 	public String show() {
-		return "welcome in my fitst deployment ";
+		return "home";
 	}
 }
