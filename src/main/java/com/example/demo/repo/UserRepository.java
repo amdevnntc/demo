@@ -19,7 +19,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
 	@Query(value = "SELECT * FROM 1418user WHERE userid = ?1 and password = ?2", nativeQuery = true)
 	User findByuserid(String userid, String password);
-	
+
 	@Query(value = "SELECT * FROM 1418user WHERE userid = ?1 and password = ?2", nativeQuery = true)
 	List<User> findByuseridd(String userid, String password);
 
@@ -35,7 +35,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
 	@Query(value = "SELECT * FROM 1418user WHERE phone = ?1 and otp = ?2", nativeQuery = true)
 	List<User> getUserByPhonewithotp(String phone, String otp);
-	
+
 	@Query(value = "SELECT * FROM 1418user WHERE email = ?1 and otp = ?2", nativeQuery = true)
 	List<User> getUserByEmailwithotp(String email, String otp);
 
