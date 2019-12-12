@@ -20,7 +20,7 @@ public class User {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name="id",unique=true,nullable=false)
+	@Column(name = "id", unique = true, nullable = false)
 	private Long id;
 
 	private String userid;
@@ -86,9 +86,12 @@ public class User {
 
 	private String token;
 
-	/*@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-	@JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
-	private Set<Role> roles;*/
+	/*
+	 * @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	 * 
+	 * @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"),
+	 * inverseJoinColumns = @JoinColumn(name = "role_id")) private Set<Role> roles;
+	 */
 
 	private String photoName;
 
