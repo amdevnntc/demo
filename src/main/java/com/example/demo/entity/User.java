@@ -14,12 +14,12 @@ import org.hibernate.annotations.CreationTimestamp;
 import lombok.Data;
 
 @Entity
-@Table(name = "1418user")
+@Table(name = "users")
 @Data
 public class User {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "id", unique = true, nullable = false)
 	private Long id;
 

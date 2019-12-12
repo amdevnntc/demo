@@ -11,16 +11,16 @@ import com.example.demo.entity.User;
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
 
-	@Query(value = "SELECT * FROM 1418user WHERE email = ?1 and password = ?2", nativeQuery = true)
+	@Query(value = "SELECT * FROM users WHERE email = ?1 and password = ?2", nativeQuery = true)
 	User getUserByEmail(String email, String password);
 
-	@Query(value = "SELECT * FROM 1418user WHERE phone = ?1 and password = ?2", nativeQuery = true)
+	@Query(value = "SELECT * FROM users WHERE phone = ?1 and password = ?2", nativeQuery = true)
 	List<User> getUserByPhone(String phone, String password);
 
-	@Query(value = "SELECT * FROM 1418user WHERE userid = ?1 and password = ?2", nativeQuery = true)
+	@Query(value = "SELECT * FROM users WHERE userid = ?1 and password = ?2", nativeQuery = true)
 	User findByuserid(String userid, String password);
-
-	@Query(value = "SELECT * FROM 1418user WHERE userid = ?1 and password = ?2", nativeQuery = true)
+	
+	@Query(value = "SELECT * FROM users WHERE userid = ?1 and password = ?2", nativeQuery = true)
 	List<User> findByuseridd(String userid, String password);
 
 	User findBytoken(String token);
@@ -33,10 +33,10 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
 	User findByuserid(String userid);
 
-	@Query(value = "SELECT * FROM 1418user WHERE phone = ?1 and otp = ?2", nativeQuery = true)
+	@Query(value = "SELECT * FROM users WHERE phone = ?1 and otp = ?2", nativeQuery = true)
 	List<User> getUserByPhonewithotp(String phone, String otp);
-
-	@Query(value = "SELECT * FROM 1418user WHERE email = ?1 and otp = ?2", nativeQuery = true)
+	
+	@Query(value = "SELECT * FROM users WHERE email = ?1 and otp = ?2", nativeQuery = true)
 	List<User> getUserByEmailwithotp(String email, String otp);
 
 }
