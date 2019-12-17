@@ -23,7 +23,7 @@ import com.example.demo.util.RandomText;
 @Controller
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 public class SendSMSController {
-	
+
 	private static Logger logger = LoggerFactory.getLogger(SendSMSController.class);
 
 	@Autowired
@@ -83,8 +83,7 @@ public class SendSMSController {
 	}
 
 	@RequestMapping(value = "/authenticate_byotp", method = RequestMethod.POST)
-	public @ResponseBody ResponseObject loginByOtp(@RequestParam("phone") String phone,
-			@RequestParam("otp") String otp) {
+	public @ResponseBody User loginByOtp(@RequestParam("phone") String phone, @RequestParam("otp") String otp) {
 		ResponseObject obj = new ResponseObject();
 		if (phone.contains(".")) {
 			User found = repo.findByEmail(phone);
@@ -93,7 +92,7 @@ public class SendSMSController {
 				logger.info("wrong otp ");
 				logger.debug("wrong otp");
 				obj.setMessage("wrong credential");
-				return obj;
+				return found;
 			} else {
 				Boolean isExist = found.getOtp().equals(otp);
 				if (found != null && isExist.equals(true)) {
@@ -106,13 +105,13 @@ public class SendSMSController {
 					logger.info("after sucessfully loggedin otp is nullyfied");
 					logger.debug("after sucessfully loggedin otp is nullyfied");
 					repo.save(found);
-					return obj;
+					return found;
 				} else {
 					logger.info("wrong credential ");
 					logger.debug("wrong credential ");
 					obj.setHasError(true);
 					obj.setMessage("wrong credential ");
-					return obj;
+					return found;
 				}
 			}
 		} else {
@@ -122,7 +121,7 @@ public class SendSMSController {
 				obj.setMessage("wrong credential");
 				logger.info("wrong credential");
 				logger.debug("wrong credential");
-				return obj;
+				return found;
 			} else {
 				Boolean isExist = found.getOtp().equals(otp);
 				if (found != null && isExist.equals(true)) {
@@ -133,11 +132,11 @@ public class SendSMSController {
 					obj.setMessage("user Logged In Sucessfully ");
 					found.setOtp(null);
 					repo.save(found);
-					return obj;
+					return found;
 				} else {
 					obj.setHasError(true);
 					obj.setMessage("wrong credential ");
-					return obj;
+					return found;
 				}
 			}
 		}
